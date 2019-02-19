@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+
+  party-service:
+    container_name: party-service
+    image: eu.gcr.io/census-ci/rm/census-rm-partysvc-stub
+    ports:
+      - "${PARTY_PORT}:${PARTY_PORT}"
+    networks:
+      - censusrmdockerdev_default
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PARTY_PORT}/info"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+  collection-instrument-service:
+    container_name: collection-instrument
+    image: eu.gcr.io/census-ci/rm/census-rm-collectioninstrumentsvc
+    ports:
+      - "${COLL_INST_PORT}:${COLL_INST_PORT}"
+    environment:
+      - DATABASE_URI=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres
+      - SECURITY_USER_NAME=${SECURITY_USER_NAME}
+      - SECURITY_USER_PASSWORD=${SECURITY_USER_PASSWORD}
+      - CONFIG_YML=config/config-docker.yaml
+      - ONS_CRYPTOKEY=somethingsecure
+      - COLLECTION_EXERCISE_HOST=${COLLEX_HOST}
+      - CASE_SERVICE_HOST=${CASE_HOST}
+      - PARTY_SERVICE_HOST=${PARTY_HOST}
+      - PARTY_SERVICE_PORT=${PARTY_PORT}
+      - RM_SURVEY_SERVICE_HOST=${SURVEY_HOST}
+      - RABBITMQ_AMQP_SURVEY_RESPONSE=amqp://guest:guest@${RABBIT_HOST}:${RABBIT_PORT}
+      - RABBITMQ_AMQP_COLLECTION_INSTRUMENT=amqp://guest:guest@${RABBIT_HOST}:${RABBIT_PORT}
+      - ZIPKIN_DSN=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/api/v1/spans
+      - ZIPKIN_SAMPLE_RATE=100
+      - GUNICORN_WORKERS=4
+    networks:
+      - censusrmdockerdev_default
+    external_links:
+      - postgres:ras-postgres
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${COLL_INST_PORT}/info"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+networks:
+   censusrmdockerdev_default:
+     external: true
