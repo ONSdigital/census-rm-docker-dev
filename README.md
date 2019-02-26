@@ -1,4 +1,4 @@
-# ras-rm-docker-dev
+# census-rm-docker-dev
 A combined repository for unifying approach to running Census RM in Docker
 This repository is a modified version of [RAS RM DOCKER DEV](https://github.com/ONSdigital/ras-rm-docker-dev) with many of the services removed.
 
