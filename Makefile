@@ -1,26 +1,19 @@
 DOT := $(shell command -v dot 2> /dev/null)
 
 up:
-	docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml up -d ${SERVICE} ;
+	docker-compose -f dev.yml -f rm-services.yml up -d ${SERVICE} ;
 	pipenv install --dev
 	pipenv run python setup_database.py
 	./setup_pubsub.sh
-
-
+	
 down:
-	docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml down
-
-up-local:
-	docker-compose -f ras-local.yml up -d ${SERVICE}
-
-down-local:
-	docker-compose -f ras-local.yml down ${SERVICE}
+	docker-compose -f dev.yml -f rm-services.yml down
 
 pull:
-	docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml pull ${SERVICE}
+	docker-compose -f dev.yml -f rm-services.yml pull ${SERVICE}
 
 logs:
-	docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml logs --follow ${SERVICE}
+	docker-compose -f dev.yml -f rm-services.yml logs --follow ${SERVICE}
 
 diagrams: ensure-graphviz download-plantuml
 	java -jar plantuml.jar -tsvg diagrams/*.puml

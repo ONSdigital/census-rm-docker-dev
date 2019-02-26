@@ -52,4 +52,10 @@ services:
   image: bigtruedata/gcloud-pubsub-emulator
   ports:
     - "8538:8538"
+  networks:
+   - censusrmdockerdev_default
   command: start --host-port 0.0.0.0:8538
+
+networks:
+   censusrmdockerdev_default:
+     external: true
