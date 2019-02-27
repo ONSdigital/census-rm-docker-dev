@@ -49,10 +49,9 @@ services:
   - "8003:80"
  pubsub-emulator:
   container_name: pubsub-emulator
-  image: eu.gcr.io/census-ci/gcloud-pubsub-emulator
+  image: eu.gcr.io/census-ci/gcloud-pubsub-emulator:latest
   ports:
     - "8538:8538"
-  command: start --host-port 0.0.0.0:8538
 
 networks:
    censusrmdockerdev_default:
