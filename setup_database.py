@@ -3,6 +3,7 @@ import os
 import sqlalchemy
 from retrying import retry
 
+
 def retry_if_sqlalchemy_error(exception):
     print(f'error has occurred: {str(exception)}')
     return isinstance(exception, sqlalchemy.exc.OperationalError)
