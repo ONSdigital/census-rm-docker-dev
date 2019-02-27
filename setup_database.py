@@ -14,7 +14,6 @@ def retry_connection(engine):
     return engine.connect()
 
 
-
 if __name__ == '__main__':
     username = os.getenv('POSTGRES_USERNAME')
     password = os.getenv('POSTGRES_PASSWORD')
