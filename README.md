@@ -53,24 +53,19 @@ This will spin up just the collection exercise service.
 Development using this repo can be done by doing the following:
 
 1. Make changes to whichever repository.  In this example we'll suppose you're changing the collection-instrument repository.
-1. Stop the service with `docker-compose -f ras-services.yml stop collection-instrument`
-1. Delete the stopped container with `docker-compose -f ras-services.yml rm collection-instrument`
+1. Stop the service with `docker stop collection-instrument`
+1. Delete the image with `docker rm collection-instrument`
 1. Rebuild the image and tag it as the latest to 'trick' the build into thinking we already have the latest and don't need to pull down the image from dockerhub.
-    1. Python repo - `docker build . -t eu.gcr.io/census-catd-ci/rm/collection-instrument/collection-instrument:latest`
+    1. Python repo - `docker build . -t eu.gcr.io/census-catd-ci/rm/collection-instrument:latest`
     1. Java repo - `mvn clean install` will automatically rebuild the docker image
-1. Finally, start the service again with `docker-compose -f ras-services.yml up -d collection-instrument`
+1. Finally, start the service again with `make up`
 
 ### Running natively with local changes
-1. Stop all the services `make down`
-1. Make changes to whichever repository.  In this example we'll suppose you're changing the response-operations-ui repository.
-1. Update [.env](./.env) so that any services that speak to the service(s) running locally has the host configured as `docker.for.mac.localhost`. e.g. `PARTY_HOST=docker.for.mac.localhost`
-1. Finally, start the services excluding the service(s) you are running locally
-1. Run the service(s) locally
-
-### Running Python services mounted as a volume (allows hot-reloading)
-1. Bring up all the services `make up`
-2. Make sure that the environment variable `RAS_HOME` has been set, and points to the root of your RAS project folders e.g. `ras-collection-instrument` would be found at `$RAS_HOME/ras-collection-instrument`
-3. Run `make local` to run all the Python services, or `docker-compose -f ras-local.yml up -d name-of-service` to run a single service
+1. Ensure you have all your services running with `make up`
+1. Stop the service you're changing with `docker stop service`
+1. Delete the image with `docker rm service`
+1. Make changes to whichever repository.
+1. Depending on the repository, run it from either the command line using the appropriate command (e.g. for a python flask app: `flask run`) or by pressing run in your IDE.
 
 ### pgAdmin 4
 1. Start all the services `make up`
