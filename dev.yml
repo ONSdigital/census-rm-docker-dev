@@ -47,6 +47,8 @@ services:
   image: eu.gcr.io/census-ci/rm/census-rm-ops
   ports:
   - "8003:80"
+  environment:
+  - APP_SETTINGS=DockerConfig
  pubsub-emulator:
   container_name: pubsub-emulator
   image: eu.gcr.io/census-ci/gcloud-pubsub-emulator:latest
