@@ -294,8 +294,8 @@ services:
     ports:
       - "${SAMPLE_PORT}:8125"
     environment:
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}      
+      - REDIS_SERVICE_HOST=${REDIS_HOST}
+      - REDIS_SERVICE_PORT=${REDIS_PORT}
     networks:
       - censusrmdockerdev_default
     restart: always
