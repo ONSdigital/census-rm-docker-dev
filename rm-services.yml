@@ -2,7 +2,7 @@ version: '3'
 services:
   case:
     container_name: casesvc
-    image: eu.gcr.io/census-ci/rm/census-rm-casesvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-casesvc
     ports:
      - "${CASE_PORT}:8171"
      - "${CASE_DEBUG_PORT}:5171"
@@ -42,7 +42,7 @@ services:
 
   action:
     container_name: action
-    image: eu.gcr.io/census-ci/rm/census-rm-actionsvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-actionsvc
     ports:
      - "${ACTION_PORT}:8151"
      - "${ACTION_DEBUG_PORT}:5151"
@@ -87,7 +87,7 @@ services:
 
   actionexporter:
     container_name: actionexporter
-    image: eu.gcr.io/census-ci/rm/census-rm-actionexportersvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-actionexportersvc
     ports:
      - "${ACTIONEXP_PORT}:8141"
      - "${ACTIONEXP_DEBUG_PORT}:5141"
@@ -127,7 +127,7 @@ services:
 
   iac:
     container_name: iac
-    image: sdcplatform/iacsvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-iacsvc
     ports:
      - "${IAC_PORT}:8121"
      - "${IAC_DEBUG_PORT}:5121"
@@ -161,7 +161,7 @@ services:
 
   collectionexercise:
     container_name: collex
-    image: eu.gcr.io/census-ci/rm/census-rm-collectionexercisesvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-collectionexercisesvc
     ports:
      - "${COLLEX_PORT}:8145"
      - "${COLLEX_DEBUG_PORT}:5145"
@@ -210,7 +210,7 @@ services:
 
   survey:
     container_name: survey
-    image: eu.gcr.io/census-ci/rm/census-rm-surveysvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-surveysvc
     ports:
      - "${SURVEY_PORT}:8080"
     external_links:
@@ -231,7 +231,7 @@ services:
 
   pubsub:
     container_name: pubsub
-    image: eu.gcr.io/census-ci/rm/census-rm-pubsub
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-pubsub
     external_links:
       - rabbitmq
       - pubsub-emulator
@@ -249,7 +249,7 @@ services:
 
   party-service:
     container_name: party-service
-    image: eu.gcr.io/census-ci/rm/census-rm-partysvc-stub
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-partysvc-stub
     ports:
       - "${PARTY_PORT}:${PARTY_PORT}"
     networks:
@@ -258,7 +258,7 @@ services:
 
   collection-instrument-service:
     container_name: collection-instrument
-    image: eu.gcr.io/census-ci/rm/census-rm-collectioninstrumentsvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-collectioninstrumentsvc
     ports:
       - "${COLL_INST_PORT}:${COLL_INST_PORT}"
     environment:
@@ -290,12 +290,12 @@ services:
     
   sample:
     container_name: sample
-    image: eu.gcr.io/census-ci/rm/census-rm-samplesvc-stub
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-samplesvc-stub
     ports:
       - "${SAMPLE_PORT}:8125"
     environment:
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}      
+      - REDIS_SERVICE_HOST=${REDIS_HOST}
+      - REDIS_SERVICE_PORT=${REDIS_PORT}
     networks:
       - censusrmdockerdev_default
     restart: always

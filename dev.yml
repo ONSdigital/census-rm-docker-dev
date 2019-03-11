@@ -51,7 +51,7 @@ services:
   - APP_SETTINGS=DockerConfig
  pubsub-emulator:
   container_name: pubsub-emulator
-  image: eu.gcr.io/census-ci/gcloud-pubsub-emulator:latest
+  image: eu.gcr.io/census-rm-ci/rm/gcloud-pubsub-emulator:latest
   ports:
     - "8538:8538"
 
