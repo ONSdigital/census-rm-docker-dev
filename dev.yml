@@ -42,8 +42,8 @@ services:
    - PGADMIN_DEFAULT_PASSWORD=secret
   links:
    - ons-postgres:postgres
- rasrm-ops:
-  container_name: rasrm-ops
+ census-rm-ops:
+  container_name: census-rm-ops
   image: eu.gcr.io/census-ci/rm/census-rm-ops
   ports:
   - "8003:80"
