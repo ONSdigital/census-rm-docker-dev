@@ -1,60 +1,67 @@
-version: '3'
+version: "3"
 services:
- ons-postgres:
-  container_name: postgres
-  image: sdcplatform/ras-rm-docker-postgres
-  command: ["-c", "shared_buffers=256MB", "-c", "max_connections=200"]
-  ports:
-   - "${EX_POSTGRES_PORT}:5432"
- redis:
-  container_name: redis
-  image: redis:3.2.9
-  ports:
-   - "${EX_REDIS_PORT}:6379"
- zipkin:
-  container_name: zipkin
-  image: openzipkin/zipkin
-  ports:
-  - "${EX_ZIPKIN_PORT}:9411"
- rabbitmq:
-  container_name: rabbitmq
-  image: rabbitmq:3.6.10-management
-  ports:
-    - "5369:4369"
-    - "45672:25672"
-    - "${EX_RABBIT_PORT}:5671-5672"
-    - "16671-16672:15671-15672"
- sftp:
+  ons-postgres:
+    container_name: postgres
+    image: sdcplatform/ras-rm-docker-postgres
+    command: ["-c", "shared_buffers=256MB", "-c", "max_connections=200"]
+    ports:
+      - "${EX_POSTGRES_PORT}:5432"
+
+  redis:
+    container_name: redis
+    image: redis:3.2.9
+    ports:
+      - "${EX_REDIS_PORT}:6379"
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "${EX_ZIPKIN_PORT}:9411"
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.6.10-management
+    ports:
+      - "5369:4369"
+      - "45672:25672"
+      - "${EX_RABBIT_PORT}:5671-5672"
+      - "16671-16672:15671-15672"
+
+  sftp:
     container_name: sftp
     image: atmoz/sftp
     volumes:
-        - ~/Documents/sftp:/home/centos/Documents/sftp
+      - ~/Documents/sftp:/home/centos/Documents/sftp
     ports:
-        - "${EX_SFTP_PORT}:22"
+      - "${EX_SFTP_PORT}:22"
     command: centos:JLibV2&XD,:2000
- pgadmin:
-  container_name: pgadmin
-  image: dpage/pgadmin4
-  ports:
-   - "80:80"
-  environment:
-   - PGADMIN_DEFAULT_EMAIL=ons@ons.gov
-   - PGADMIN_DEFAULT_PASSWORD=secret
-  links:
-   - ons-postgres:postgres
- census-rm-ops:
-  container_name: census-rm-ops
-  image: eu.gcr.io/census-ci/rm/census-rm-ops
-  ports:
-  - "8003:80"
-  environment:
-  - APP_SETTINGS=DockerConfig
- pubsub-emulator:
-  container_name: pubsub-emulator
-  image: eu.gcr.io/census-rm-ci/rm/gcloud-pubsub-emulator:latest
-  ports:
-    - "8538:8538"
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - "80:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=ons@ons.gov
+      - PGADMIN_DEFAULT_PASSWORD=secret
+    links:
+      - ons-postgres:postgres
+
+  census-rm-ops:
+    container_name: census-rm-ops
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-ops
+    ports:
+      - "8003:80"
+    environment:
+      - APP_SETTINGS=DockerConfig
+
+  pubsub-emulator:
+    container_name: pubsub-emulator
+    image: eu.gcr.io/census-rm-ci/rm/gcloud-pubsub-emulator:latest
+    ports:
+      - "8538:8538"
 
 networks:
-   censusrmdockerdev_default:
-     external: true
+  censusrmdockerdev_default:
+    external: true
