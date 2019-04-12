@@ -40,6 +40,27 @@ services:
       timeout: 10s
       retries: 3
 
+  casev2:
+    container_name: casesvcv2
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-casesvc-v2
+    external_links:
+     - postgres
+     - rabbitmq
+    environment:
+     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+     - IACSERVICE_CONNECTION_HOST=${IAC_HOST}
+     - IACSERVICE_CONNECTION_PORT=${IAC_PORT}
+     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+     - JAVA_OPTS=-Dspring.profiles.active=dev
+    healthcheck:
+      test: ["CMD", "find", "/tmp/case-service-healthy", "-mmin", "-1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
   action:
     container_name: action
     image: eu.gcr.io/census-rm-ci/rm/census-rm-actionsvc
