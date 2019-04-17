@@ -145,7 +145,7 @@ services:
      - REDIS_HOST=${REDIS_HOST}
      - CASE_SVC_CONNECTION_CONFIG_HOST=${CASE_HOST}
      - CASE_SVC_CONNECTION_CONFIG_PORT=${CASE_PORT}
-     - JAVA_OPTS=-Xmx128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${IAC_DEBUG_PORT}
+     - JAVA_OPTS=-Xmx128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${IAC_DEBUG_PORT} -Dspring.profiles.active=dev
      - LIQUIBASE_USER=${POSTGRES_USERNAME}
      - LIQUIBASE_PASSWORD=${POSTGRES_PASSWORD}
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
