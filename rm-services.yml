@@ -40,9 +40,9 @@ services:
       timeout: 10s
       retries: 3
 
-  caseprocessor:
-    container_name: caseprocessor
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-case-processor
+  casev2:
+    container_name: casesvcv2
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-casesvc-v2
     external_links:
      - postgres
      - rabbitmq
