@@ -1,44 +1,5 @@
 version: '3'
 services:
-  case:
-    container_name: casesvc
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-casesvc
-    ports:
-     - "${CASE_PORT}:8171"
-     - "${CASE_DEBUG_PORT}:5171"
-     - "${CASE_MAN_PORT}:8271"
-    external_links:
-     - postgres
-     - rabbitmq
-     - redis
-    environment:
-     - SECURITY_BASIC_ENABLED=true
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - LIQUIBASE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}
-     - RABBITMQ_HOST=${RABBIT_HOST}
-     - RABBITMQ_PORT=${RABBIT_PORT}
-     - REDIS_HOST=${REDIS_HOST}
-     - DATA_GRID_ADDRESS=${REDIS_HOST}:${REDIS_PORT}
-     - ACTION_SVC_CONNECTION_CONFIG_HOST=${ACTION_HOST}
-     - ACTION_SVC_CONNECTION_CONFIG_PORT=${ACTION_PORT}
-     - INTERNET_ACCESS_CODE_SVC_CONNECTION_CONFIG_HOST=${IAC_HOST}
-     - INTERNET_ACCESS_CODE_SVC_CONNECTION_CONFIG_PORT=${IAC_PORT}
-     - COLLECTION_EXERCISE_SVC_CONNECTION_CONFIG_HOST=${COLLEX_HOST}
-     - COLLECTION_EXERCISE_SVC_CONNECTION_CONFIG_PORT=${COLLEX_PORT}
-     - CASE_DISTRIBUTION_DELAY_MILLI_SECONDS=30000
-     - JAVA_OPTS=-Xmx128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${CASE_DEBUG_PORT}
-     - LIQUIBASE_USER=${POSTGRES_USERNAME}
-     - LIQUIBASE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_ZIPKIN_ENABLED=true
-     - SPRING_ZIPKIN_BASEURL=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8171/info"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
 
   caseprocessor:
     container_name: caseprocessor
@@ -61,47 +22,23 @@ services:
       timeout: 10s
       retries: 3
 
-  action:
-    container_name: action
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-actionsvc
+  action-scheduler:
+    container_name: action-scheduler
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-action-scheduler
     ports:
      - "${ACTION_PORT}:8151"
-     - "${ACTION_DEBUG_PORT}:5151"
-     - "${ACTION_MAN_PORT}:8251"
     external_links:
      - postgres
-     - rabbitmq
-     - redis
+     - rabbitmqs
     environment:
-     - SECURITY_BASIC_ENABLED=true
+     - SERVER_PORT=${ACTION_PORT}
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - LIQUIBASE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}
-     - RABBITMQ_HOST=${RABBIT_HOST}
-     - RABBITMQ_PORT=${RABBIT_PORT}
-     - REDIS_HOST=${REDIS_HOST}
-     - CASE_SVC_CONNECTION_CONFIG_HOST=${CASE_HOST}
-     - CASE_SVC_CONNECTION_CONFIG_PORT=${CASE_PORT}
-     - COLLECTION_EXERCISE_SVC_CONNECTION_CONFIG_HOST=${COLLEX_HOST}
-     - COLLECTION_EXERCISE_SVC_CONNECTION_CONFIG_PORT=${COLLEX_PORT}
-     - DATA_GRID_ADDRESS=${REDIS_HOST}:${REDIS_PORT}
-     - PARTY_SVC_CONNECTION_CONFIG_HOST=${PARTY_HOST}
-     - PARTY_SVC_CONNECTION_CONFIG_PORT=${PARTY_PORT}
-     - PARTY_SVC_CONNECTION_CONFIG_USERNAME=${PARTY_USER}
-     - PARTY_SVC_CONNECTION_CONFIG_PASSWORD=${PARTY_PASSWORD}
-     - SURVEY_SVC_CONNECTION_CONFIG_HOST=${SURVEY_HOST}
-     - SURVEY_SVC_CONNECTION-CONFIG_PORT=${SURVEY_PORT}
-     - JAVA_OPTS=-Xmx512m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${ACTION_DEBUG_PORT} -Dlogging.level.uk.gov.ons.ctp.response.action.scheduled.plan.PlanScheduler=WARN -Dlogging.level.uk.gov.ons.ctp.response.action.service.impl.ActionPlanJobServiceImpl=WARN
-     - LIQUIBASE_USER=${POSTGRES_USERNAME}
-     - LIQUIBASE_PASSWORD=${POSTGRES_PASSWORD}
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_ZIPKIN_ENABLED=true
-     - SPRING_ZIPKIN_BASEURL=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
-     - SAMPLE_SVC_CONNECTION_CONFIG_HOST=${SAMPLE_HOST}
-     - SAMPLE_SVC_CONNECTION_CONFIG_PORT=${SAMPLE_PORT}
-    restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8151/info"]
+      test: ["CMD", "find", "/tmp/action-scheduler-healthy", "-mmin", "-1"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -180,76 +117,6 @@ services:
       timeout: 10s
       retries: 3
 
-  collectionexercise:
-    container_name: collex
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-collectionexercisesvc
-    ports:
-     - "${COLLEX_PORT}:8145"
-     - "${COLLEX_DEBUG_PORT}:5145"
-     - "${COLLEX_MAN_PORT}:8245"
-    external_links:
-     - postgres
-     - rabbitmq
-     - redis
-    environment:
-     - SECURITY_BASIC_ENABLED=true
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - LIQUIBASE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}
-     - RABBITMQ_HOST=${RABBIT_HOST}
-     - RABBITMQ_PORT=${RABBIT_PORT}
-     - REDISSON_CONFIG_ADDRESS=${REDIS_HOST}:${REDIS_PORT}
-     - DATA_GRID_ADDRESS=${REDIS_HOST}:${REDIS_PORT}
-     - ACTION_SVC_CONNECTION_CONFIG_HOST=${ACTION_HOST}
-     - ACTION_SVC_CONNECTION_CONFIG_PORT=${ACTION_PORT}
-     - SURVEY_SVC_CONNECTION_CONFIG_HOST=${SURVEY_HOST}
-     - SURVEY_SVC_CONNECTION_CONFIG_PORT=${SURVEY_PORT}
-     - PARTY_SVC_CONNECTION_CONFIG_HOST=${PARTY_HOST}
-     - PARTY_SVC_CONNECTION_CONFIG_PORT=${PARTY_PORT}
-     - PARTY_SVC_CONNECTION_CONFIG_USERNAME=${PARTY_USER}
-     - PARTY_SVC_CONNECTION_CONFIG_PASSWORD=${PARTY_PASSWORD}
-     - COLLECTION_INSTRUMENT_SVC_CONNECTION_CONFIG_HOST=${COLL_INST_HOST}
-     - COLLECTION_INSTRUMENT_SVC_CONNECTION_CONFIG_PORT=${COLL_INST_PORT}
-     - COLLECTION_INSTRUMENT_SVC_CONNECTION_CONFIG_USERNAME=${SECURITY_USER_NAME}
-     - COLLECTION_INSTRUMENT_SVC_CONNECTION_CONFIG_PASSWORD=${SECURITY_USER_PASSWORD}
-     - SCHEDULES_VALIDATION_SCHEDULE_DELAY_MILLI_SECONDS=1000
-     - SCHEDULES_DISTRIBUTION_SCHEDULE_DELAY_MILLI_SECONDS=1000
-     - JAVA_OPTS=-Xmx128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${COLLEX_DEBUG_PORT}
-     - LIQUIBASE_USER=${POSTGRES_USERNAME}
-     - LIQUIBASE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_ZIPKIN_ENABLED=true
-     - SPRING_ZIPKIN_BASEURL=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
-     - SAMPLE_SVC_CONNECTION_CONFIG_HOST=${SAMPLE_HOST}
-     - SAMPLE_SVC_CONNECTION_CONFIG_PORT=${SAMPLE_PORT}
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8145/info"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-
-  survey:
-    container_name: survey
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-surveysvc
-    ports:
-     - "${SURVEY_PORT}:8080"
-    external_links:
-     - postgres
-    environment:
-     - DATABASE_URL=postgres://postgres:postgres@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres?sslmode=disable
-     - security_user_name=${SURVEY_USER}
-     - security_user_password=${SURVEY_PASSWORD}
-     - ZIPKIN_DSN=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/api/v1/spans
-     - ZIPKIN_SAMPLE_RATE=1.0
-     - ZIPKIN_DISABLE=False
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/info"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-
   pubsub:
     container_name: pubsub
     image: eu.gcr.io/census-rm-ci/rm/census-rm-pubsub
@@ -266,59 +133,6 @@ services:
       - RABBIT_EXCHANGE=${RABBIT_EXCHANGE}
       - RECEIPT_TOPIC_NAME=${RECEIPT_TOPIC_NAME}
       - SUBSCRIPTION_NAME=${SUBSCRIPTION_NAME}
-    restart: always
-
-  party-service:
-    container_name: party-service
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-partysvc-stub
-    ports:
-      - "${PARTY_PORT}:${PARTY_PORT}"
-    networks:
-      - censusrmdockerdev_default
-    restart: always
-
-  collection-instrument-service:
-    container_name: collection-instrument
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-collectioninstrumentsvc
-    ports:
-      - "${COLL_INST_PORT}:${COLL_INST_PORT}"
-    environment:
-      - DATABASE_URI=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres
-      - SECURITY_USER_NAME=${SECURITY_USER_NAME}
-      - SECURITY_USER_PASSWORD=${SECURITY_USER_PASSWORD}
-      - CONFIG_YML=config/config-docker.yaml
-      - ONS_CRYPTOKEY=somethingsecure
-      - COLLECTION_EXERCISE_HOST=${COLLEX_HOST}
-      - CASE_SERVICE_HOST=${CASE_HOST}
-      - PARTY_SERVICE_HOST=${PARTY_HOST}
-      - PARTY_SERVICE_PORT=${PARTY_PORT}
-      - RM_SURVEY_SERVICE_HOST=${SURVEY_HOST}
-      - RABBITMQ_AMQP_SURVEY_RESPONSE=amqp://guest:guest@${RABBIT_HOST}:${RABBIT_PORT}
-      - RABBITMQ_AMQP_COLLECTION_INSTRUMENT=amqp://guest:guest@${RABBIT_HOST}:${RABBIT_PORT}
-      - ZIPKIN_DSN=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/api/v1/spans
-      - ZIPKIN_SAMPLE_RATE=100
-      - GUNICORN_WORKERS=4
-    networks:
-      - censusrmdockerdev_default
-    external_links:
-      - postgres:ras-postgres
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${COLL_INST_PORT}/info"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-
-  sample:
-    container_name: sample
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-samplesvc-stub
-    ports:
-      - "${SAMPLE_PORT}:8125"
-    environment:
-      - REDIS_SERVICE_HOST=${REDIS_HOST}
-      - REDIS_SERVICE_PORT=${REDIS_PORT}
-    networks:
-      - censusrmdockerdev_default
     restart: always
 
 networks:
