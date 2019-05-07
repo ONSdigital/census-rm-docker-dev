@@ -137,7 +137,6 @@ services:
       - SUBSCRIPTION_NAME=${SUBSCRIPTION_NAME}
     restart: always
 
-
   caseapi:
     container_name: caseapi
     image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api
