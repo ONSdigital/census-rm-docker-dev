@@ -141,7 +141,7 @@ services:
     container_name: caseapi
     image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api
     ports:
-      - "${CASE_API_PORT}:8302"
+      - "${CASE_API_PORT}:8161"
     external_links:
      - postgres
     environment:
@@ -150,7 +150,7 @@ services:
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8302/actuator/info"]
+      test: ["CMD", "curl", "-f", "http://localhost:8161/actuator/info"]
       interval: 1m30s
       timeout: 10s
       retries: 3
