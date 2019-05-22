@@ -137,6 +137,25 @@ services:
       - SUBSCRIPTION_NAME=${SUBSCRIPTION_NAME}
     restart: always
 
+  caseapi:
+    container_name: caseapi
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api
+    ports:
+      - "${CASE_API_PORT}:8161"
+    external_links:
+     - postgres
+    environment:
+     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8161/actuator/info"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    
+
 networks:
   default:
     external:
