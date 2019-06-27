@@ -6,15 +6,15 @@ services:
     external_links:
      - postgres
      - rabbitmq
+     - uacqid
     environment:
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
-     - IACSERVICE_CONNECTION_HOST=${IAC_HOST}
-     - IACSERVICE_CONNECTION_PORT=${IAC_PORT}
+     - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
+     - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - JAVA_OPTS=-Dspring.profiles.active=dev
     healthcheck:
       test: ["CMD", "find", "/tmp/case-service-healthy", "-mmin", "-1"]
       interval: 1m30s
@@ -85,36 +85,21 @@ services:
       timeout: 10s
       retries: 3
 
-  iac:
-    container_name: iac
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-iacsvc
+  uacqid:
+    container_name: uacqid
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-uac-qid-service
     ports:
-     - "${IAC_PORT}:8121"
-     - "${IAC_DEBUG_PORT}:5121"
-     - "${IAC_MAN_PORT}:8221"
+     - "${UAC_PORT}:8164"
     external_links:
      - postgres
-     - rabbitmq
-     - redis
     environment:
-     - SECURITY_BASIC_ENABLED=true
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - LIQUIBASE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}
-     - RABBITMQ_HOST=${RABBIT_HOST}
-     - RABBITMQ_PORT=${RABBIT_PORT}
-     - REDIS_HOST=${REDIS_HOST}
-     - CASE_SVC_CONNECTION_CONFIG_HOST=dummy
-     - CASE_SVC_CONNECTION_CONFIG_PORT=666
-     - JAVA_OPTS=-Xmx128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${IAC_DEBUG_PORT} -Dspring.profiles.active=dev
-     - LIQUIBASE_USER=${POSTGRES_USERNAME}
-     - LIQUIBASE_PASSWORD=${POSTGRES_PASSWORD}
+     - JAVA_OPTS=-Xmx128m -Xdebug -Dspring.profiles.active=dev
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_ZIPKIN_ENABLED=true
-     - SPRING_ZIPKIN_BASEURL=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8121/info"]
+      test: ["CMD", "curl", "-f", "http://localhost:8164/actuator/info"]
       interval: 1m30s
       timeout: 10s
       retries: 3
