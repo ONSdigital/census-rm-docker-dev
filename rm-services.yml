@@ -104,6 +104,26 @@ services:
       timeout: 10s
       retries: 3
 
+  printfilesvc:
+    container_name: printfilesvc
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-print-file-service
+    external_links:
+      - rabbitmq
+    environment:
+      - RABBIT_QUEUE=Action.Printer
+      - RABBIT_HOST=${RABBIT_HOST}
+      - RABBIT_PORT=${RABBIT_PORT}
+      - RABBIT_USERNAME=guest
+      - RABBIT_PASSWORD=guest
+      - RABBIT_VIRTUALHOST=/
+      - READINESS_FILE_PATH=/tmp/ready
+      - ENVIRONMENT=DEV
+    restart: always
+    healthcheck:
+      test: sh -c "[ -f /tmp/ready ]"
+      interval: 10s
+      retries: 10
+
   pubsub:
     container_name: pubsub
     image: eu.gcr.io/census-rm-ci/rm/census-rm-pubsub
