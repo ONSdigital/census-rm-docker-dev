@@ -45,46 +45,6 @@ services:
       timeout: 10s
       retries: 3
 
-  actionexporter:
-    container_name: actionexporter
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-actionexportersvc
-    ports:
-     - "${ACTIONEXP_PORT}:8141"
-     - "${ACTIONEXP_DEBUG_PORT}:5141"
-     - "${ACTIONEXP_MAN_PORT}:8241"
-    external_links:
-     - postgres
-     - rabbitmq
-     - redis
-     - sftp
-    environment:
-     - SECURITY_BASIC_ENABLED=true
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - LIQUIBASE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}
-     - RABBITMQ_HOST=${RABBIT_HOST}
-     - RABBITMQ_PORT=${RABBIT_PORT}
-     - REDIS_HOST=${REDIS_HOST}
-     - SFTP_HOST=${SFTP_HOST}
-     - SFTP_PORT=${SFTP_PORT}
-     - DATA_GRID_ADDRESS=${REDIS_HOST}:${REDIS_PORT}
-     - JAVA_OPTS=-Xmx128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${ACTIONEXP_DEBUG_PORT}
-     - FREEMARKER_DELAYFORNEWTEMPLATES=3600000
-     - DATA_GRID_LOCK_TIME_TO_LIVE_SECONDS=45
-     - LIQUIBASE_USER=${POSTGRES_USERNAME}
-     - LIQUIBASE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - LOGGING_LEVEL_uk.gov.ons.ctp.response.action.export.scheduled=WARN
-     - EXPORT_SCHEDULE_CRON_EXPRESSION=*/5 * * * * *
-     - SPRING_ZIPKIN_ENABLED=true
-     - SPRING_ZIPKIN_BASEURL=http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8141/info"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-
   uacqid:
     container_name: uacqid
     image: eu.gcr.io/census-rm-ci/rm/census-rm-uac-qid-service
@@ -118,6 +78,11 @@ services:
       - RABBIT_VIRTUALHOST=/
       - READINESS_FILE_PATH=/tmp/ready
       - ENVIRONMENT=DEV
+      - SFTP_HOST=sftp
+      - SFTP_PORT=22
+      - SFTP_USERNAME=centos
+      - SFTP_KEY_FILENAME=/app/dummy_keys/dummy_rsa
+      - SFTP_PASSPHRASE=secret
     restart: always
     healthcheck:
       test: sh -c "[ -f /tmp/ready ]"
