@@ -128,7 +128,20 @@ services:
       interval: 1m30s
       timeout: 10s
       retries: 3
-    
+
+  fwmtadapter:
+    container_name: fwmtadapter
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-fieldwork-adapter
+    external_links:
+     - rabbitmq
+    environment:
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+    healthcheck:
+      test: ["CMD", "find", "/tmp/fwmt-adapter-healthy", "-mmin", "-1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
 
 networks:
   default:
