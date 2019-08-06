@@ -122,6 +122,8 @@ services:
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+     - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
+     - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8161/actuator/info"]
