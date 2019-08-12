@@ -139,6 +139,8 @@ services:
     environment:
      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+     - CASEAPI_HOST=${CASE_API_HOST}
+     - CASEAPI_PORT=${CASE_API_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/fwmt-adapter-healthy", "-mmin", "-1"]
       interval: 1m30s
