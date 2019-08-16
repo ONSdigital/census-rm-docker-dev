@@ -58,6 +58,12 @@ services:
     ports:
       - "8538:8538"
 
+  notifystub:
+    container_name: notifystub
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-notify-stub:latest
+    ports:
+      - "8917:5000"
+
 networks:
   censusrmdockerdev_default:
     external: true

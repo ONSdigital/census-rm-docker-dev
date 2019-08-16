@@ -146,6 +146,25 @@ services:
       timeout: 10s
       retries: 3
 
+  notifyprocessor:
+    container_name: notifyprocessor
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-notify-processor
+    external_links:
+     - rabbitmq
+     - notifystub
+    environment:
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+     - CASEAPI_HOST=${CASE_API_HOST}
+     - CASEAPI_PORT=${CASE_API_PORT}
+     - NOTIFY_BASEURL=${NOTIFY_STUB_BASEURL}
+     - NOTIFY_TESTMODE=false
+    healthcheck:
+      test: ["CMD", "find", "/tmp/notify-processor-healthy", "-mmin", "-1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
 networks:
   default:
     external:
