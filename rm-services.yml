@@ -121,6 +121,8 @@ services:
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
      - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
      - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8161/actuator/info"]
