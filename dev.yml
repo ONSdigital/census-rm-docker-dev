@@ -21,6 +21,9 @@ services:
       - "45672:25672"
       - "${EX_RABBIT_PORT}:5671-5672"
       - "16671-16672:15671-15672"
+    volumes:
+      - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+      - ./rabbitmq/definitions.json:/opt/definitions.json:ro
 
   sftp:
     container_name: sftp

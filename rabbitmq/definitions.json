@@ -1,0 +1,431 @@
+{
+  "rabbit_version": "3.6.10",
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "cTAJdxBZCy5N4cVYPVh0TdRnU1CKTlxiH6mRSee/haEZU33G",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "parameters": [],
+  "global_parameters": [],
+  "policies": [],
+  "queues": [
+    {
+      "name": "Action.Printer",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.rh.case",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.invalidAddressQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notify.fulfilments",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.action",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "unaddressedRequestQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "Case.Responses",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "Action.Field",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "action.events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.rh.uac",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "action.fulfilment",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.fulfilments",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.rh.uac.test",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "FieldworkAdapter.Refusals",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.sample.inbound",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.uac-qid-created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.refusals",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "FieldWorkAdapter.Responses",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "RM.Field",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "FieldworkAdapter.invalidAddress",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.rh.case.test",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.questionnairelinked",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "RM.Field.Test",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "survey.launched",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "uac-qid-created-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "events",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "action-outbound-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "adapter-outbound-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "action-case-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "action-case-exchange",
+      "vhost": "/",
+      "destination": "action.events",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "action-outbound-exchange",
+      "vhost": "/",
+      "destination": "Action.Field",
+      "destination_type": "queue",
+      "routing_key": "Action.Field.binding",
+      "arguments": {}
+    },
+    {
+      "source": "action-outbound-exchange",
+      "vhost": "/",
+      "destination": "Action.Printer",
+      "destination_type": "queue",
+      "routing_key": "Action.Printer.binding",
+      "arguments": {}
+    },
+    {
+      "source": "adapter-outbound-exchange",
+      "vhost": "/",
+      "destination": "RM.Field",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "adapter-outbound-exchange",
+      "vhost": "/",
+      "destination": "RM.Field.Test",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.action",
+      "destination_type": "queue",
+      "routing_key": "event.case.*",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.rh.case",
+      "destination_type": "queue",
+      "routing_key": "event.case.*",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.rh.case.test",
+      "destination_type": "queue",
+      "routing_key": "event.case.*",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "FieldworkAdapter.invalidAddress",
+      "destination_type": "queue",
+      "routing_key": "event.case.address.update",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.invalidAddressQueue",
+      "destination_type": "queue",
+      "routing_key": "event.case.address.update",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "action.fulfilment",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.request",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.fulfilments",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.request",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "notify.fulfilments",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.request",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.questionnairelinked",
+      "destination_type": "queue",
+      "routing_key": "event.respondent.questionnaire.linked",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "FieldworkAdapter.Refusals",
+      "destination_type": "queue",
+      "routing_key": "event.respondent.refusal",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.refusals",
+      "destination_type": "queue",
+      "routing_key": "event.respondent.refusal",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "Case.Responses",
+      "destination_type": "queue",
+      "routing_key": "event.response.receipt",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "FieldWorkAdapter.Responses",
+      "destination_type": "queue",
+      "routing_key": "event.response.receipt",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.action",
+      "destination_type": "queue",
+      "routing_key": "event.uac.*",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.rh.uac",
+      "destination_type": "queue",
+      "routing_key": "event.uac.*",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.rh.uac.test",
+      "destination_type": "queue",
+      "routing_key": "event.uac.*",
+      "arguments": {}
+    },
+    {
+      "source": "uac-qid-created-exchange",
+      "vhost": "/",
+      "destination": "case.uac-qid-created",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "survey.launched",
+      "destination_type": "queue",
+      "routing_key": "event.response.authentication",
+      "arguments": {}
+    }
+  ]
+}
