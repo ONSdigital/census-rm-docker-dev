@@ -34,6 +34,20 @@
       "arguments": {}
     },
     {
+      "name": "case.undeliveredMailQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "action.undeliveredMailQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
       "name": "case.rh.case",
       "vhost": "/",
       "durable": true,
@@ -289,6 +303,22 @@
       "destination": "case.action",
       "destination_type": "queue",
       "routing_key": "event.case.*",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.undeliveredMailQueue",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.undelivered",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "action.undeliveredMailQueue",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.undelivered",
       "arguments": {}
     },
     {
