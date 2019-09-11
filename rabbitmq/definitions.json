@@ -69,6 +69,13 @@
       "arguments": {}
     },
     {
+      "name": "notify.enriched.fulfilment",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
       "name": "case.action",
       "vhost": "/",
       "durable": true,
@@ -254,6 +261,15 @@
       "auto_delete": false,
       "internal": false,
       "arguments": {}
+    },
+    {
+      "name": "notify.enriched.fulfilment.exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
     }
   ],
   "bindings": [
@@ -375,6 +391,14 @@
       "destination": "notify.fulfilments",
       "destination_type": "queue",
       "routing_key": "event.fulfilment.request",
+      "arguments": {}
+    },
+    {
+      "source": "notify.enriched.fulfilment.exchange",
+      "vhost": "/",
+      "destination": "notify.enriched.fulfilment",
+      "destination_type": "queue",
+      "routing_key": "",
       "arguments": {}
     },
     {
