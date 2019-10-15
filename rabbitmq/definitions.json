@@ -221,6 +221,23 @@
       "durable": true,
       "auto_delete": false,
       "arguments": {}
+    },
+    {
+      "name": "delayedRedeliveryQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "",
+        "x-message-ttl": 15000
+      }
+    },
+    {
+      "name": "quarantineQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
     }
   ],
   "exchanges": [
@@ -273,6 +290,24 @@
       "name": "notify.enriched.fulfilment.exchange",
       "vhost": "/",
       "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "delayedRedeliveryExchange",
+      "vhost": "/",
+      "type": "headers",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "quarantineExchange",
+      "vhost": "/",
+      "type": "headers",
       "durable": true,
       "auto_delete": false,
       "internal": false,
@@ -494,6 +529,22 @@
       "destination": "survey.launched",
       "destination_type": "queue",
       "routing_key": "event.response.authentication",
+      "arguments": {}
+    },
+    {
+      "source": "delayedRedeliveryExchange",
+      "vhost": "/",
+      "destination": "delayedRedeliveryQueue",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "quarantineExchange",
+      "vhost": "/",
+      "destination": "quarantineQueue",
+      "destination_type": "queue",
+      "routing_key": "",
       "arguments": {}
     }
   ]

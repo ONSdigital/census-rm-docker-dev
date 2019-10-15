@@ -13,6 +13,8 @@ services:
      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
      - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
      - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
+     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
@@ -34,6 +36,8 @@ services:
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
      - REDIS_HOST=${REDIS_HOST}
      - JAVA_OPTS=-Xmx512m
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
@@ -119,9 +123,10 @@ services:
 
     restart: always
 
+# Case-API needs to be set to tag v2.4.0 because master includes changes for CCS
   caseapi:
     container_name: caseapi
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api:v2.4.0
     ports:
       - "${CASE_API_PORT}:8161"
     external_links:
@@ -151,6 +156,8 @@ services:
      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
      - CASEAPI_HOST=${CASE_API_HOST}
      - CASEAPI_PORT=${CASE_API_PORT}
+     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/fwmt-adapter-healthy", "-mmin", "-1"]
       interval: 1m30s
@@ -170,8 +177,22 @@ services:
      - CASEAPI_PORT=${CASE_API_PORT}
      - NOTIFY_BASEURL=${NOTIFY_STUB_BASEURL}
      - NOTIFY_TESTMODE=false
+     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/notify-processor-healthy", "-mmin", "-1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+  exceptionmanager:
+    container_name: exceptionmanager
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-exception-manager
+    ports:
+      - "${EXCEPTIONMANAGER_PORT}:8666"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8666/actuator/info"]
       interval: 1m30s
       timeout: 10s
       retries: 3
