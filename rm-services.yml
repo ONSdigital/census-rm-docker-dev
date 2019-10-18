@@ -123,10 +123,9 @@ services:
 
     restart: always
 
-# Case-API needs to be set to tag v2.4.0 because master includes changes for CCS
   caseapi:
     container_name: caseapi
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api:v2.4.0
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-case-api
     ports:
       - "${CASE_API_PORT}:8161"
     external_links:
