@@ -52,7 +52,7 @@ services:
 
   actioncasedrainer:
     container_name: actioncasedrainer
-    image: eu.gcr.io/census-rm-ci/rm/census-rm-action-case-drainer
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-actioned-case-drainer
     ports:
      - "${ACTION_CASE_DRAINER_PORT}:8141"
     external_links:
