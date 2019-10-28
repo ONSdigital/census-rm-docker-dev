@@ -87,6 +87,8 @@ services:
       - SFTP_USERNAME=centos
       - SFTP_KEY_FILENAME=/app/dummy_keys/dummy_rsa
       - SFTP_PASSPHRASE=secret
+      - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     restart: always
     healthcheck:
       test: sh -c "[ -f /tmp/ready ]"
