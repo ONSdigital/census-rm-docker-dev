@@ -6,14 +6,30 @@
       "password_hash": "cTAJdxBZCy5N4cVYPVh0TdRnU1CKTlxiH6mRSee/haEZU33G",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": "administrator"
+    },
+    {
+      "name": "field",
+      "password_hash": "oBiWIBAMeUBQRIzKW5zO4B5Mdr038gvLDHTcVPRfMqBshMG+",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
     }
   ],
   "vhosts": [
+    {
+      "name": "field_host"
+    },
     {
       "name": "/"
     }
   ],
   "permissions": [
+    {
+      "user": "field",
+      "vhost": "field_host",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
     {
       "user": "guest",
       "vhost": "/",
