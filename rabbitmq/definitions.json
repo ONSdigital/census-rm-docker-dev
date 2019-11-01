@@ -191,7 +191,7 @@
     },
     {
       "name": "RM.Field",
-      "vhost": "/",
+      "vhost": "field_host",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
@@ -226,7 +226,7 @@
     },
     {
       "name": "RM.Field.Test",
-      "vhost": "/",
+      "vhost": "field_host",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
@@ -286,7 +286,7 @@
     },
     {
       "name": "adapter-outbound-exchange",
-      "vhost": "/",
+      "vhost": "field_host",
       "type": "direct",
       "durable": true,
       "auto_delete": false,
@@ -357,7 +357,7 @@
     },
     {
       "source": "adapter-outbound-exchange",
-      "vhost": "/",
+      "vhost": "field_host",
       "destination": "RM.Field",
       "destination_type": "queue",
       "routing_key": "",
@@ -365,7 +365,7 @@
     },
     {
       "source": "adapter-outbound-exchange",
-      "vhost": "/",
+      "vhost": "field_host",
       "destination": "RM.Field.Test",
       "destination_type": "queue",
       "routing_key": "",
