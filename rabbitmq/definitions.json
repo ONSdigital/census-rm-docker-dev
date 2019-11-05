@@ -24,103 +24,92 @@
   ],
   "permissions": [
     {
-      "user": "field",
-      "vhost": "field_host",
+      "user": "guest",
+      "vhost": "/",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
     },
     {
       "user": "guest",
-      "vhost": "/",
+      "vhost": "field_host",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "field",
+      "vhost": "field_host",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
     }
   ],
-  "parameters": [],
-  "global_parameters": [],
-  "policies": [],
+  "parameters": [
+    {
+      "value": {
+        "uri": "amqp://guest:guest@localhost:5672/%2F",
+        "ack-mode": "on-confirm",
+        "trust-user-id": false,
+        "expires": 36000000
+      },
+      "vhost": "field_host",
+      "component": "federation-upstream",
+      "name": "my-upstream"
+    }
+  ],
+  "global_parameters": [
+    {
+      "name": "cluster_name",
+      "value": "rabbit@27d67365089c"
+    }
+  ],
+  "policies": [
+    {
+      "vhost": "field_host",
+      "name": "fed",
+      "pattern": "adapter-outbound-exchange",
+      "apply-to": "exchanges",
+      "definition": {
+        "federation-upstream-set": "all"
+      },
+      "priority": 0
+    }
+  ],
   "queues": [
     {
-      "name": "Action.Printer",
+      "name": "RM.Field",
+      "vhost": "field_host",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "RM.Field.Test",
+      "vhost": "field_host",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.rh.uac.test",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "case.undeliveredMailQueue",
+      "name": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-expires": 36000000,
+        "x-internal-purpose": "federation"
+      }
     },
     {
-      "name": "action.undeliveredMailQueue",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.rh.case",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.invalidAddressQueue",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "notify.fulfilments",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "notify.enriched.fulfilment",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.action",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "unaddressedRequestQueue",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "Case.Responses",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "Action.Field",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "action.events",
+      "name": "FieldworkAdapter.uacUpdated",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -134,70 +123,35 @@
       "arguments": {}
     },
     {
+      "name": "case.invalidAddressQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.action",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "Action.Printer",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "notify.enriched.fulfilment",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
       "name": "action.fulfilment",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.fulfilments",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.rh.uac.test",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "FieldworkAdapter.Refusals",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.sample.inbound",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.uac-qid-created",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "case.refusals",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "FieldworkAdapter.uacUpdated",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "RM.Field",
-      "vhost": "field_host",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "FieldworkAdapter.invalidAddress",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -211,6 +165,62 @@
       "arguments": {}
     },
     {
+      "name": "action.undeliveredMailQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "quarantineQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.sample.inbound",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "FieldworkAdapter.Refusals",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.uac-qid-created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "unaddressedRequestQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.refusals",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "survey.launched",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
       "name": "case.rh.case.test",
       "vhost": "/",
       "durable": true,
@@ -218,21 +228,21 @@
       "arguments": {}
     },
     {
-      "name": "case.questionnairelinked",
+      "name": "notify.fulfilments",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "RM.Field.Test",
-      "vhost": "field_host",
+      "name": "Action.Field",
+      "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "survey.launched",
+      "name": "case.undeliveredMailQueue",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -249,7 +259,42 @@
       }
     },
     {
-      "name": "quarantineQueue",
+      "name": "case.rh.case",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "Case.Responses",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "action.events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "FieldworkAdapter.invalidAddress",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.questionnairelinked",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "case.fulfilments",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -258,26 +303,8 @@
   ],
   "exchanges": [
     {
-      "name": "uac-qid-created-exchange",
-      "vhost": "/",
-      "type": "direct",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "events",
-      "vhost": "/",
-      "type": "topic",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "action-outbound-exchange",
-      "vhost": "/",
+      "name": "field-exchange-from-rm",
+      "vhost": "field_host",
       "type": "direct",
       "durable": true,
       "auto_delete": false,
@@ -294,7 +321,38 @@
       "arguments": {}
     },
     {
-      "name": "action-case-exchange",
+      "name": "events",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange B",
+      "vhost": "/",
+      "type": "x-federation-upstream",
+      "durable": true,
+      "auto_delete": true,
+      "internal": true,
+      "arguments": {
+        "x-max-hops": 1,
+        "x-downstream-name": "rabbit@27d67365089c",
+        "x-internal-purpose": "federation"
+      }
+    },
+    {
+      "name": "delayedRedeliveryExchange",
+      "vhost": "/",
+      "type": "headers",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "action-outbound-exchange",
       "vhost": "/",
       "type": "direct",
       "durable": true,
@@ -312,9 +370,9 @@
       "arguments": {}
     },
     {
-      "name": "delayedRedeliveryExchange",
+      "name": "adapter-outbound-exchange",
       "vhost": "/",
-      "type": "headers",
+      "type": "direct",
       "durable": true,
       "auto_delete": false,
       "internal": false,
@@ -328,9 +386,51 @@
       "auto_delete": false,
       "internal": false,
       "arguments": {}
+    },
+    {
+      "name": "uac-qid-created-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "action-case-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
     }
   ],
   "bindings": [
+    {
+      "source": "adapter-outbound-exchange",
+      "vhost": "field_host",
+      "destination": "RM.Field",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "field-exchange-from-rm",
+      "vhost": "field_host",
+      "destination": "RM.Field",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "field-exchange-from-rm",
+      "vhost": "field_host",
+      "destination": "RM.Field.Test",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
     {
       "source": "action-case-exchange",
       "vhost": "/",
@@ -357,16 +457,24 @@
     },
     {
       "source": "adapter-outbound-exchange",
-      "vhost": "field_host",
-      "destination": "RM.Field",
-      "destination_type": "queue",
+      "vhost": "/",
+      "destination": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange B",
+      "destination_type": "exchange",
       "routing_key": "",
-      "arguments": {}
+      "arguments": {
+        "x-bound-from": [
+          {
+            "cluster-name": "rabbit@27d67365089c",
+            "exchange": "field_host:adapter-outbound-exchange B",
+            "hops": 1
+          }
+        ]
+      }
     },
     {
-      "source": "adapter-outbound-exchange",
-      "vhost": "field_host",
-      "destination": "RM.Field.Test",
+      "source": "delayedRedeliveryExchange",
+      "vhost": "/",
+      "destination": "delayedRedeliveryQueue",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
@@ -377,22 +485,6 @@
       "destination": "case.action",
       "destination_type": "queue",
       "routing_key": "event.case.*",
-      "arguments": {}
-    },
-    {
-      "source": "events",
-      "vhost": "/",
-      "destination": "case.undeliveredMailQueue",
-      "destination_type": "queue",
-      "routing_key": "event.fulfilment.undelivered",
-      "arguments": {}
-    },
-    {
-      "source": "events",
-      "vhost": "/",
-      "destination": "action.undeliveredMailQueue",
-      "destination_type": "queue",
-      "routing_key": "event.fulfilment.undelivered",
       "arguments": {}
     },
     {
@@ -422,17 +514,17 @@
     {
       "source": "events",
       "vhost": "/",
-      "destination": "case.ccsPropertyListedQueue",
+      "destination": "case.invalidAddressQueue",
       "destination_type": "queue",
-      "routing_key": "event.ccs.propertylisting",
+      "routing_key": "event.case.address.update",
       "arguments": {}
     },
     {
       "source": "events",
       "vhost": "/",
-      "destination": "case.invalidAddressQueue",
+      "destination": "case.ccsPropertyListedQueue",
       "destination_type": "queue",
-      "routing_key": "event.case.address.update",
+      "routing_key": "event.ccs.propertylisting",
       "arguments": {}
     },
     {
@@ -460,11 +552,19 @@
       "arguments": {}
     },
     {
-      "source": "notify.enriched.fulfilment.exchange",
+      "source": "events",
       "vhost": "/",
-      "destination": "notify.enriched.fulfilment",
+      "destination": "action.undeliveredMailQueue",
       "destination_type": "queue",
-      "routing_key": "",
+      "routing_key": "event.fulfilment.undelivered",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.undeliveredMailQueue",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.undelivered",
       "arguments": {}
     },
     {
@@ -494,17 +594,17 @@
     {
       "source": "events",
       "vhost": "/",
-      "destination": "Case.Responses",
+      "destination": "survey.launched",
       "destination_type": "queue",
-      "routing_key": "event.response.receipt",
+      "routing_key": "event.response.authentication",
       "arguments": {}
     },
     {
       "source": "events",
       "vhost": "/",
-      "destination": "FieldworkAdapter.uacUpdated",
+      "destination": "Case.Responses",
       "destination_type": "queue",
-      "routing_key": "event.uac.update",
+      "routing_key": "event.response.receipt",
       "arguments": {}
     },
     {
@@ -532,25 +632,25 @@
       "arguments": {}
     },
     {
-      "source": "uac-qid-created-exchange",
+      "source": "events",
       "vhost": "/",
-      "destination": "case.uac-qid-created",
+      "destination": "FieldworkAdapter.uacUpdated",
+      "destination_type": "queue",
+      "routing_key": "event.uac.update",
+      "arguments": {}
+    },
+    {
+      "source": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange B",
+      "vhost": "/",
+      "destination": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
     },
     {
-      "source": "events",
+      "source": "notify.enriched.fulfilment.exchange",
       "vhost": "/",
-      "destination": "survey.launched",
-      "destination_type": "queue",
-      "routing_key": "event.response.authentication",
-      "arguments": {}
-    },
-    {
-      "source": "delayedRedeliveryExchange",
-      "vhost": "/",
-      "destination": "delayedRedeliveryQueue",
+      "destination": "notify.enriched.fulfilment",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
@@ -559,6 +659,14 @@
       "source": "quarantineExchange",
       "vhost": "/",
       "destination": "quarantineQueue",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "uac-qid-created-exchange",
+      "vhost": "/",
+      "destination": "case.uac-qid-created",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}

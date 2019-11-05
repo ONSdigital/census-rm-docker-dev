@@ -15,7 +15,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3.6.10-management
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-rabbitmq
     ports:
       - "5369:4369"
       - "45672:25672"
