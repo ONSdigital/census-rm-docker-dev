@@ -61,7 +61,7 @@
   "global_parameters": [
     {
       "name": "cluster_name",
-      "value": "rabbit@27d67365089c"
+      "value": "rm@cluster"
     }
   ],
   "policies": [
@@ -99,7 +99,7 @@
       "arguments": {}
     },
     {
-      "name": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange",
+      "name": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -330,7 +330,7 @@
       "arguments": {}
     },
     {
-      "name": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange B",
+      "name": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange B",
       "vhost": "/",
       "type": "x-federation-upstream",
       "durable": true,
@@ -338,7 +338,7 @@
       "internal": true,
       "arguments": {
         "x-max-hops": 1,
-        "x-downstream-name": "rabbit@27d67365089c",
+        "x-downstream-name": "rm@cluster",
         "x-internal-purpose": "federation"
       }
     },
@@ -458,13 +458,13 @@
     {
       "source": "adapter-outbound-exchange",
       "vhost": "/",
-      "destination": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange B",
+      "destination": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange B",
       "destination_type": "exchange",
       "routing_key": "",
       "arguments": {
         "x-bound-from": [
           {
-            "cluster-name": "rabbit@27d67365089c",
+            "cluster-name": "rm@cluster",
             "exchange": "field_host:adapter-outbound-exchange B",
             "hops": 1
           }
@@ -640,9 +640,9 @@
       "arguments": {}
     },
     {
-      "source": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange B",
+      "source": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange B",
       "vhost": "/",
-      "destination": "federation: adapter-outbound-exchange -> rabbit@27d67365089c:field_host:adapter-outbound-exchange",
+      "destination": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
