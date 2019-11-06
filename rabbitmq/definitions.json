@@ -296,15 +296,6 @@
   ],
   "exchanges": [
     {
-      "name": "field-exchange-from-rm",
-      "vhost": "field_vhost",
-      "type": "direct",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
       "name": "adapter-outbound-exchange",
       "vhost": "field_vhost",
       "type": "direct",
