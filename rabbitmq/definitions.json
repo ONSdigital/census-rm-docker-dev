@@ -48,7 +48,7 @@
       },
       "vhost": "field_vhost",
       "component": "federation-upstream",
-      "name": "my-upstream"
+      "name": "federated-upstream"
     }
   ],
   "global_parameters": [
@@ -395,22 +395,6 @@
       "source": "adapter-outbound-exchange",
       "vhost": "field_vhost",
       "destination": "RM.Field",
-      "destination_type": "queue",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "field-exchange-from-rm",
-      "vhost": "field_vhost",
-      "destination": "RM.Field",
-      "destination_type": "queue",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "field-exchange-from-rm",
-      "vhost": "field_vhost",
-      "destination": "RM.Field.Test",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
