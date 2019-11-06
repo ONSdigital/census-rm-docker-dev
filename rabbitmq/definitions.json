@@ -31,13 +31,6 @@
       "read": ".*"
     },
     {
-      "user": "guest",
-      "vhost": "field_host",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
       "user": "field",
       "vhost": "field_host",
       "configure": ".*",
