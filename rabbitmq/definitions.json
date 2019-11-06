@@ -16,7 +16,7 @@
   ],
   "vhosts": [
     {
-      "name": "field_host"
+      "name": "field_vhost"
     },
     {
       "name": "/"
@@ -32,7 +32,7 @@
     },
     {
       "user": "field",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
@@ -46,7 +46,7 @@
         "trust-user-id": false,
         "expires": 36000000
       },
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "component": "federation-upstream",
       "name": "my-upstream"
     }
@@ -59,7 +59,7 @@
   ],
   "policies": [
     {
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "name": "federated-adapter-outbound-exchange-policy",
       "pattern": "adapter-outbound-exchange",
       "apply-to": "exchanges",
@@ -72,14 +72,14 @@
   "queues": [
     {
       "name": "RM.Field",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
       "name": "RM.Field.Test",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
@@ -92,7 +92,7 @@
       "arguments": {}
     },
     {
-      "name": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange",
+      "name": "federation: adapter-outbound-exchange -> rm@cluster:field_vhost:adapter-outbound-exchange",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -297,7 +297,7 @@
   "exchanges": [
     {
       "name": "field-exchange-from-rm",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "type": "direct",
       "durable": true,
       "auto_delete": false,
@@ -306,7 +306,7 @@
     },
     {
       "name": "adapter-outbound-exchange",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "type": "direct",
       "durable": true,
       "auto_delete": false,
@@ -323,7 +323,7 @@
       "arguments": {}
     },
     {
-      "name": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange B",
+      "name": "federation: adapter-outbound-exchange -> rm@cluster:field_vhost:adapter-outbound-exchange B",
       "vhost": "/",
       "type": "x-federation-upstream",
       "durable": true,
@@ -402,7 +402,7 @@
   "bindings": [
     {
       "source": "adapter-outbound-exchange",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "destination": "RM.Field",
       "destination_type": "queue",
       "routing_key": "",
@@ -410,7 +410,7 @@
     },
     {
       "source": "field-exchange-from-rm",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "destination": "RM.Field",
       "destination_type": "queue",
       "routing_key": "",
@@ -418,7 +418,7 @@
     },
     {
       "source": "field-exchange-from-rm",
-      "vhost": "field_host",
+      "vhost": "field_vhost",
       "destination": "RM.Field.Test",
       "destination_type": "queue",
       "routing_key": "",
@@ -451,14 +451,14 @@
     {
       "source": "adapter-outbound-exchange",
       "vhost": "/",
-      "destination": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange B",
+      "destination": "federation: adapter-outbound-exchange -> rm@cluster:field_vhost:adapter-outbound-exchange B",
       "destination_type": "exchange",
       "routing_key": "",
       "arguments": {
         "x-bound-from": [
           {
             "cluster-name": "rm@cluster",
-            "exchange": "field_host:adapter-outbound-exchange B",
+            "exchange": "field_vhost:adapter-outbound-exchange B",
             "hops": 1
           }
         ]
@@ -633,9 +633,9 @@
       "arguments": {}
     },
     {
-      "source": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange B",
+      "source": "federation: adapter-outbound-exchange -> rm@cluster:field_vhost:adapter-outbound-exchange B",
       "vhost": "/",
-      "destination": "federation: adapter-outbound-exchange -> rm@cluster:field_host:adapter-outbound-exchange",
+      "destination": "federation: adapter-outbound-exchange -> rm@cluster:field_vhost:adapter-outbound-exchange",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
