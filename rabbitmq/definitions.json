@@ -60,7 +60,7 @@
   "policies": [
     {
       "vhost": "field_host",
-      "name": "fed",
+      "name": "federated-adapter-outbound-exchange-policy",
       "pattern": "adapter-outbound-exchange",
       "apply-to": "exchanges",
       "definition": {
