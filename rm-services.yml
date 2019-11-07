@@ -39,12 +39,12 @@ services:
      - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
      - REDIS_HOST=${REDIS_HOST}
-     - JAVA_OPTS=-Xmx512m
+     - JAVA_TOOL_OPTIONS=-Xmx512m
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8301/actuator/info"]
+      test: ["CMD", "find", "/tmp/action-scheduler-healthy", "-mmin", "-1"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -58,7 +58,7 @@ services:
      - postgres
     environment:
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - JAVA_OPTS=-Xmx128m -Xdebug -Dspring.profiles.active=dev
+     - JAVA_TOOL_OPTIONS=-Xmx128m -Xdebug -Dspring.profiles.active=dev
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     restart: always
