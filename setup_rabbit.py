@@ -47,7 +47,7 @@ def gather_existing_exchange_config():
     for exchange in all_exchanges:
         exchange_name = exchange['name']
         if exchange_name not in EXCHANGES_TO_IGNORE:
-            existing_exchanges.append({'name': exchange['name'], 'type': exchange['type']})
+            existing_exchanges.append({'name': exchange_name, 'type': exchange['type']})
 
     return existing_exchanges
 
@@ -125,7 +125,7 @@ def create_bindings(binding_list, existing_binding_list):
 def create_binding(source_exchange, destination_queue, routing_key):
     v_host = urllib.parse.quote(Config.RABBITMQ_VHOST, safe='')
 
-    binding_details = {"routing_key":routing_key, "arguments":{}}
+    binding_details = {"routing_key": routing_key, "arguments": {}}
     response = requests.post(f"{Config.RABBITMQ_API}/bindings/{v_host}/e/{source_exchange}/q/{destination_queue}",
                              json=binding_details, auth=HTTPBasicAuth(Config.RABBITMQ_USER, Config.RABBITMQ_PASSWORD))
 
@@ -148,7 +148,7 @@ def wait_for_rabbit():
 
 def main():
     wait_for_rabbit()
-    
+
     existing_config = gather_existing_config()
     # Uncomment the line below to dump out the existing config as YAML
     # print(yaml.dump(existing_config))
