@@ -138,7 +138,7 @@ def wait_for_rabbit():
         try:
             response = requests.get(f"{Config.RABBITMQ_API}/healthchecks/node",
                                     auth=HTTPBasicAuth(Config.RABBITMQ_USER, Config.RABBITMQ_PASSWORD))
-            if response.status_code == 200:
+            if response.status_code == 200 and response.json()['status'] == 'ok':
                 break
         except:
             pass
