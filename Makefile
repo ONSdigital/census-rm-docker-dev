@@ -5,7 +5,8 @@ up:
 	pipenv install --dev
 	pipenv run python setup_database.py
 	./setup_pubsub.sh
-	
+	pipenv run python setup_rabbit.py
+
 down:
 	docker-compose -f dev.yml -f rm-services.yml down
 
