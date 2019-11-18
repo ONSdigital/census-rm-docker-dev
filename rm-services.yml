@@ -85,7 +85,7 @@ services:
       - SFTP_HOST=sftp
       - SFTP_PORT=22
       - SFTP_USERNAME=centos
-      - SFTP_KEY_FILENAME=/app/dummy_keys/dummy_rsa
+      - SFTP_KEY_FILENAME=/home/printfile/dummy_keys/dummy_rsa
       - SFTP_PASSPHRASE=secret
       - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
       - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
