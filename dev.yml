@@ -7,12 +7,6 @@ services:
     ports:
       - "${EX_POSTGRES_PORT}:5432"
 
-  redis:
-    container_name: redis
-    image: redis:3.2.9
-    ports:
-      - "${EX_REDIS_PORT}:6379"
-
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.6.10-management
