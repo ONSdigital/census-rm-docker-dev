@@ -47,6 +47,26 @@ services:
       timeout: 10s
       retries: 3
 
+  actionworker:
+    container_name: actionworker
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-action-worker
+    external_links:
+     - postgres
+     - rabbitmq
+    environment:
+     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+     - JAVA_TOOL_OPTIONS=-Xmx512m
+     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    restart: always
+    healthcheck:
+      test: ["CMD", "find", "/tmp/action-worker-healthy", "-mmin", "-1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
   uacqid:
     container_name: uacqid
     image: eu.gcr.io/census-rm-ci/rm/census-rm-uac-qid-service
