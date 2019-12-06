@@ -17,6 +17,7 @@ services:
      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+     - CASEREFGENERATORKEY=${CASEREFGENERATORKEY}
     healthcheck:
       test: ["CMD", "find", "/tmp/case-service-healthy", "-mmin", "-1"]
       interval: 1m30s
