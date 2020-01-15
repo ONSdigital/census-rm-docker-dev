@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
   caseprocessor:
     container_name: caseprocessor
@@ -20,9 +20,10 @@ services:
      - CASEREFGENERATORKEY=${CASEREFGENERATORKEY}
     healthcheck:
       test: ["CMD", "find", "/tmp/case-service-healthy", "-mmin", "-1"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 45s
 
   actionscheduler:
     container_name: actionscheduler
@@ -44,9 +45,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "find", "/tmp/action-scheduler-healthy", "-mmin", "-1"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 50s
 
   actionworker:
     container_name: actionworker
@@ -64,9 +66,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "find", "/tmp/action-worker-healthy", "-mmin", "-1"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 30s
 
   uacqid:
     container_name: uacqid
@@ -83,15 +86,17 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8164/actuator/info"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 30s
 
   printfilesvc:
     container_name: printfilesvc
     image: eu.gcr.io/census-rm-ci/rm/census-rm-print-file-service
     external_links:
       - rabbitmq
+      - sftp
     environment:
       - RABBIT_QUEUE=Action.Printer
       - RABBIT_HOST=${RABBIT_HOST}
@@ -112,7 +117,9 @@ services:
     healthcheck:
       test: sh -c "[ -f /tmp/ready ]"
       interval: 10s
+      timeout: 10s
       retries: 10
+      start_period: 50s
 
   pubsub:
     container_name: pubsub
@@ -141,8 +148,14 @@ services:
       - PPO_UNDELIVERED_SUBSCRIPTION_NAME=${PPO_UNDELIVERED_SUBSCRIPTION_NAME}
       - PPO_UNDELIVERED_SUBSCRIPTION_PROJECT_ID=${PPO_UNDELIVERED_SUBSCRIPTION_PROJECT_ID}
       - PPO_UNDELIVERED_TOPIC_NAME=${PPO_UNDELIVERED_TOPIC_NAME}
-
+      - READINESS_FILE_PATH=/tmp/ready
     restart: always
+    healthcheck:
+      test: sh -c "[ -f /tmp/ready ]"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 50s
 
   caseapi:
     container_name: caseapi
@@ -162,9 +175,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8161/actuator/info"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 50s
 
   fwmtadapter:
     container_name: fwmtadapter
@@ -180,9 +194,10 @@ services:
      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/fwmt-adapter-healthy", "-mmin", "-1"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 30s
 
   notifyprocessor:
     container_name: notifyprocessor
@@ -201,9 +216,10 @@ services:
      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/notify-processor-healthy", "-mmin", "-1"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 30s
 
   exceptionmanager:
     container_name: exceptionmanager
@@ -213,9 +229,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8666/actuator/info"]
-      interval: 1m30s
+      interval: 60s
       timeout: 10s
-      retries: 3
+      retries: 4
+      start_period: 30s
 
 networks:
   default:
