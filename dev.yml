@@ -3,7 +3,7 @@ services:
   ons-postgres:
     container_name: postgres
     image: sdcplatform/ras-rm-docker-postgres
-    command: ["-c", "shared_buffers=256MB", "-c", "max_connections=300"]
+    command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
     ports:
       - "${EX_POSTGRES_PORT}:5432"
 
