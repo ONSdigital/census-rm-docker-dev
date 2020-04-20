@@ -7,7 +7,6 @@ This repository is a modified version of [RAS RM DOCKER DEV](https://github.com/
 1. Ask to become a team member of sdcplatform
 1. Run `docker login` in a terminal and use your docker hub account
 1. Run `gcloud auth configure-docker` to associate your docker with the GCR registry
-1. Run `docker network create censusrmdockerdev_default` to create the docker network
 
 ## Setup
 Based on python 3.6
@@ -101,14 +100,6 @@ ERROR: Encountered errors while bringing up the project.
 make: *** [up] Error 1
 ```
 - Kill the process hogging that port by running `lsof -n -i:8002|awk 'FNR == 2 { print $2 }'|xargs kill` where 8002 is the port you are trying to bind to
-
-### Docker network
-```
-ERROR: Network censusrmdockerdev_default declared as external, but could not be found. Please create the network manually using `docker network create censusrmdockerdev_default` and try again.
-make: *** [up] Error 1
-```
-
-- Run `docker network create censusrmdockerdev_default` to create the docker network.
 
 ### Unexpected behavior
 

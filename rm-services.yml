@@ -235,7 +235,3 @@ services:
       retries: 4
       start_period: 30s
 
-networks:
-  default:
-    external:
-      name: censusrmdockerdev_default
