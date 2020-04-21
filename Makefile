@@ -1,6 +1,7 @@
 DOT := $(shell command -v dot 2> /dev/null)
 
 up:
+	docker network inspect censusrmdockerdev_default >/dev/null || docker network create censusrmdockerdev_default
 	docker-compose -f dev.yml -f rm-services.yml up -d ${SERVICE} ;
 	pipenv install --dev
 	pipenv run python setup_database.py

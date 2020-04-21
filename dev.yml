@@ -63,3 +63,6 @@ services:
     ports:
       - "8917:5000"
 
+networks:
+  censusrmdockerdev_default:
+    external: true
