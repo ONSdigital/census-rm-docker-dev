@@ -101,6 +101,16 @@ make: *** [up] Error 1
 ```
 - Kill the process hogging that port by running `lsof -n -i:8002|awk 'FNR == 2 { print $2 }'|xargs kill` where 8002 is the port you are trying to bind to
 
+### Docker network
+```
+ERROR: Network censusrmdockerdev_default declared as external, but could not be found. Please create the network manually using `docker network create censusrmdockerdev_default` and try again.
+make: *** [up] Error 1
+```
+
+- Run `docker network create censusrmdockerdev_default` to create the docker network.
+
+**NB:** Docker compose may warn you that the network is unused. This is a lie, it is in use. 
+
 ### Unexpected behavior
 
 1. Stop docker containers `make down`
