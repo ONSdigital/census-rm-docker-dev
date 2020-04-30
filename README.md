@@ -1,15 +1,50 @@
-# census-rm-docker-dev
-A combined repository for unifying approach to running Census RM in Docker
+# Stand up a local Census RM App Environment
+
+The goal of this repository is to enable team members to stand up a dockerized local census application using **docker compose** and **docker network**.
+
 This repository is a modified version of [RAS RM DOCKER DEV](https://github.com/ONSdigital/ras-rm-docker-dev) with many of the services removed.
 
 ## Pre-requisites
-1. Create a docker hub account
-1. Ask to become a team member of sdcplatform
-1. Run `docker login` in a terminal and use your docker hub account
-1. Run `gcloud auth configure-docker` to associate your docker with the GCR registry
 
-## Setup
-Based on python 3.6
+1. You can access the google cloud docker registry
+1. Ask to become a team member of sdcplatform
+1. Run `gcloud auth configure-docker` to associate your docker with the GCR registry
+1. Run `docker network create censusrmdockerdev_default` to create the docker network
+1. Connect to the gcr registry and perform a `make pull` do bring down docker-compose images
+
+Important is to configure your python environment - that's covered next.
+
+
+## Configure Local Python Environments to Run Acceptance Tests
+
+#### Currently Supported Python Version is 3.6.10 and Machine Version is 3.7.7
+
+The goal is to setup our python environments ready to run Python 3.X.X (whaterver is currently supported). It is good practise to keep your machine version in line with the latest (today it is 3.P.Q).
+
+Validate your python versions with **`python -V`** and printenv.
+
+Initializing pyenv is one of those boring things that must always be done. You can circumnavigate this by adding the below command to the .zshrc (if using a z shell) or .inputrc or .profile or .bash_profile (if using a bash on a Mac).
+
+```
+eval "$(pyenv init -)"
+```
+
+- **`pyenv --version`**      # check whether pyenv is installed
+- **`brew install pyenv`**   # install pyenv with brew
+- **`pyenv install 3.X.Y`**  # the app needs python 3.6
+- **`pyenv local 3.x.y`**    # whenever you come to this directory this python will be used
+
+pyenv loal will create a **.python-version** file so that whenever you return to the directory your python env is set. Note that this has been put into `.gitignore`
+
+## PipEnv | Upgrading Python | Projects with a Pip File
+
+As this project maintains a pip file you can ascertain validity by running **`pipenv check`** - whenever Python is upgraded the Pipfile change is all that is required. To ensure you are in sync use
+
+- **`pipenv check`**  # check whether the environments match
+- **`pipenv --rm`**   # if the check fails remove the current environment
+
+
+## Setup Based on python 3.X.Y
 
 Use [Pyenv](https://github.com/pyenv/pyenv) to manage installed Python versions
 
