@@ -67,6 +67,13 @@
       }
     },
     {
+      "name": "pubsub.quarantine",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
       "name": "case.action",
       "vhost": "/",
       "durable": true,
