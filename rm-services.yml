@@ -141,6 +141,7 @@ services:
       - FULFILMENT_CONFIRMED_PROJECT=${FULFILMENT_CONFIRMED_PROJECT}
       - READINESS_FILE_PATH=/tmp/ready
       - PUBSUB_EMULATOR_HOST=${PUBSUB_EMULATOR_HOSTNAME}:${PUBSUB_EMULATOR_PORT}
+      - QUARANTINE_MESSAGE_URL=http://${EXCEPTIONMANAGER_HOST}:${EXCEPTIONMANAGER_PORT}/storeskippedmessage
     restart: always
     healthcheck:
       test: sh -c "[ -f /tmp/ready ]"
@@ -219,6 +220,10 @@ services:
     ports:
       - "${EXCEPTIONMANAGER_PORT}:8666"
     restart: always
+    environment:
+     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8666/actuator/info"]
       interval: 60s
