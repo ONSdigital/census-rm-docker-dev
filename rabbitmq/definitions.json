@@ -37,6 +37,16 @@
       }
     },
     {
+      "name": "case.field.update",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "delayedRedeliveryExchange",
+        "x-dead-letter-routing-key": "case.field.update"
+      }
+    },
+    {
       "name": "Action.Field",
       "vhost": "/",
       "durable": true,
@@ -429,6 +439,14 @@
       "destination": "action.events",
       "destination_type": "queue",
       "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "case.field.update",
+      "destination_type": "queue",
+      "routing_key": "event.fieldcase.update",
       "arguments": {}
     },
     {
