@@ -224,6 +224,8 @@ services:
      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8666/actuator/info"]
       interval: 60s
