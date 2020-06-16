@@ -43,6 +43,7 @@ services:
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
      - FULFILMENT_BATCH_SCHEDULED_TIME=${FULFILMENT_BATCH_SCHEDULED_TIME}
+     - REDIS_HOST=${REDIS_HOST}
     restart: always
     healthcheck:
       test: ["CMD", "find", "/tmp/action-scheduler-healthy", "-mmin", "-1"]
