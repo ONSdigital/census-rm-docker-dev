@@ -50,6 +50,11 @@ services:
       - "8003:80"
     environment:
       - APP_SETTINGS=DockerConfig
+      - RABBITMQ_SERVICE_HOST=${RABBIT_HOST}
+      - RABBITMQ_SERVICE_PORT=${RABBIT_PORT}
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_VHOST=/
 
   pubsub-emulator:
     container_name: pubsub-emulator
