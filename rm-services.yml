@@ -18,6 +18,7 @@ services:
      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
      - CASEREFGENERATORKEY=${CASEREFGENERATORKEY}
+     - SPRING_CLOUD_GCP_PUBSUB_EMULATOR_HOST=${PUBSUB_EMULATOR_HOST}
     healthcheck:
       test: ["CMD", "find", "/tmp/case-service-healthy", "-mmin", "-1"]
       interval: 60s

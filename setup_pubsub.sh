@@ -17,3 +17,6 @@ curl -X PUT http://$PUBSUB_SETUP_HOST/v1/projects/$FULFILMENT_CONFIRMED_PROJECT/
 curl -X PUT http://$PUBSUB_SETUP_HOST/v1/projects/$FULFILMENT_CONFIRMED_PROJECT/subscriptions/$FULFILMENT_CONFIRMED_SUBSCRIPTION -H 'Content-Type: application/json' -d '{"topic": "projects/'$FULFILMENT_CONFIRMED_PROJECT'/topics/'$FULFILMENT_CONFIRMED_TOPIC_NAME'"}'
 curl -X PUT http://$PUBSUB_SETUP_HOST/v1/projects/$EQ_FULFILMENT_PROJECT/topics/$EQ_FULFILMENT_TOPIC_NAME
 curl -X PUT http://$PUBSUB_SETUP_HOST/v1/projects/$EQ_FULFILMENT_PROJECT/subscriptions/$EQ_FULFILMENT_SUBSCRIPTION -H 'Content-Type: application/json' -d '{"topic": "projects/'$EQ_FULFILMENT_PROJECT'/topics/'$EQ_FULFILMENT_TOPIC_NAME'"}'
+curl -X PUT http://$PUBSUB_SETUP_HOST/v1/projects/$AIMS_NEW_ADDRESS_PROJECT/topics/$AIMS_NEW_ADDRESS_TOPIC_NAME
+curl -X PUT http://$PUBSUB_SETUP_HOST/v1/projects/$AIMS_NEW_ADDRESS_PROJECT/subscriptions/$AIMS_NEW_ADDRESS_SUBSCRIPTION -H 'Content-Type: application/json' -d '{"topic": "projects/'$AIMS_NEW_ADDRESS_PROJECT'/topics/'$AIMS_NEW_ADDRESS_TOPIC_NAME'"}'
+
