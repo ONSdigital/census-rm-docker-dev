@@ -56,6 +56,12 @@ services:
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_VHOST=/
 
+  census-rm-ops-ui:
+    container_name: census-rm-ops-ui
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-ops-ui
+    ports:
+      - "8234:8234"
+
   pubsub-emulator:
     container_name: pubsub-emulator
     image: eu.gcr.io/census-rm-ci/rm/gcloud-pubsub-emulator:latest
