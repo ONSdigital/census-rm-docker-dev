@@ -1,25 +1,25 @@
-version: '3.4'
+version: "3.4"
 services:
   caseprocessor:
     container_name: caseprocessor
     image: eu.gcr.io/census-rm-ci/rm/census-rm-case-processor
     external_links:
-     - postgres
-     - rabbitmq
-     - uacqid
+      - postgres
+      - rabbitmq
+      - uacqid
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
-     - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
-     - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
-     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
-     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - CASEREFGENERATORKEY=${CASEREFGENERATORKEY}
-     - SPRING_CLOUD_GCP_PUBSUB_EMULATOR_HOST=${PUBSUB_EMULATOR_HOSTNAME}:${PUBSUB_EMULATOR_PORT}
-     - SPRING_CLOUD_GCP_PUBSUB_PROJECT_ID=${AIMS_NEW_ADDRESS_PROJECT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
+      - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
+      - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - CASEREFGENERATORKEY=${CASEREFGENERATORKEY}
+      - SPRING_CLOUD_GCP_PUBSUB_EMULATOR_HOST=${PUBSUB_EMULATOR_HOSTNAME}:${PUBSUB_EMULATOR_PORT}
+      - SPRING_CLOUD_GCP_PUBSUB_PROJECT_ID=${AIMS_NEW_ADDRESS_PROJECT}
     healthcheck:
       test: ["CMD", "find", "/tmp/case-service-healthy", "-mmin", "-1"]
       interval: 60s
@@ -31,15 +31,15 @@ services:
     container_name: actionscheduler
     image: eu.gcr.io/census-rm-ci/rm/census-rm-action-scheduler
     ports:
-     - "${ACTION_SCHEDULER_PORT}:8301"
+      - "${ACTION_SCHEDULER_PORT}:8301"
     external_links:
-     - postgres
+      - postgres
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - JAVA_TOOL_OPTIONS=-Xmx512m
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - FULFILMENT_BATCH_SCHEDULED_TIME=${FULFILMENT_BATCH_SCHEDULED_TIME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - JAVA_TOOL_OPTIONS=-Xmx512m
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - FULFILMENT_BATCH_SCHEDULED_TIME=${FULFILMENT_BATCH_SCHEDULED_TIME}
     restart: always
     healthcheck:
       test: ["CMD", "find", "/tmp/action-scheduler-healthy", "-mmin", "-1"]
@@ -52,17 +52,17 @@ services:
     container_name: actionworker
     image: eu.gcr.io/census-rm-ci/rm/census-rm-action-worker
     external_links:
-     - postgres
-     - rabbitmq
+      - postgres
+      - rabbitmq
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
-     - JAVA_TOOL_OPTIONS=-Xmx512m
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
-     - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - JAVA_TOOL_OPTIONS=-Xmx512m
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
+      - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
     restart: always
     healthcheck:
       test: ["CMD", "find", "/tmp/action-worker-healthy", "-mmin", "-1"]
@@ -75,17 +75,17 @@ services:
     container_name: actionprocessor
     image: eu.gcr.io/census-rm-ci/rm/census-rm-action-processor
     external_links:
-     - postgres
-     - rabbitmq
+      - postgres
+      - rabbitmq
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
-     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
-     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
-     - JAVA_TOOL_OPTIONS=-Xmx512m
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
+      - JAVA_TOOL_OPTIONS=-Xmx512m
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     restart: always
     healthcheck:
       test: ["CMD", "find", "/tmp/action-processor-healthy", "-mmin", "-1"]
@@ -98,14 +98,14 @@ services:
     container_name: uacqid
     image: eu.gcr.io/census-rm-ci/rm/census-rm-uac-qid-service
     ports:
-     - "${UAC_PORT}:8164"
+      - "${UAC_PORT}:8164"
     external_links:
-     - postgres
+      - postgres
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - JAVA_TOOL_OPTIONS=-Xmx128m -Xdebug -Dspring.profiles.active=dev
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - JAVA_TOOL_OPTIONS=-Xmx128m -Xdebug -Dspring.profiles.active=dev
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8164/actuator/info"]
@@ -179,15 +179,15 @@ services:
     ports:
       - "${CASE_API_PORT}:8161"
     external_links:
-     - postgres
+      - postgres
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
-     - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
+      - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8161/actuator/info"]
@@ -200,12 +200,12 @@ services:
     container_name: fwmtadapter
     image: eu.gcr.io/census-rm-ci/rm/census-rm-fieldwork-adapter
     external_links:
-     - rabbitmq
+      - rabbitmq
     environment:
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
-     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
-     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/fwmt-adapter-healthy", "-mmin", "-1"]
       interval: 60s
@@ -217,23 +217,42 @@ services:
     container_name: notifyprocessor
     image: eu.gcr.io/census-rm-ci/rm/census-rm-notify-processor
     external_links:
-     - rabbitmq
-     - notifystub
+      - rabbitmq
+      - notifystub
     environment:
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
-     - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
-     - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
-     - NOTIFY_BASEURL=${NOTIFY_STUB_BASEURL}
-     - NOTIFY_TESTMODE=false
-     - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
-     - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - UACSERVICE_CONNECTION_HOST=${UAC_HOST}
+      - UACSERVICE_CONNECTION_PORT=${UAC_PORT}
+      - NOTIFY_BASEURL=${NOTIFY_STUB_BASEURL}
+      - NOTIFY_TESTMODE=false
+      - EXCEPTIONMANAGER_CONNECTION_HOST=${EXCEPTIONMANAGER_HOST}
+      - EXCEPTIONMANAGER_CONNECTION_PORT=${EXCEPTIONMANAGER_PORT}
     healthcheck:
       test: ["CMD", "find", "/tmp/notify-processor-healthy", "-mmin", "-1"]
       interval: 60s
       timeout: 10s
       retries: 4
       start_period: 30s
+
+  ops-ui:
+    container_name: ops-ui
+    image: eu.gcr.io/census-rm-ci/rm/census-rm-ops-ui
+    ports:
+      - "8234:8234"
+    restart: always
+    environment:
+      - PORT=8234
+      - ENVIRONMENT=DEV
+      - APP_SETTINGS=Config
+      - CASE_API_URL=http://${CASE_API_HOST}:${CASE_API_PORT}
+      - GUNICORN_WORKERS=4
+    healthcheck:
+      test: ["CMD", "python", "healthcheck.py"]
+      interval: 60s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
 
   exceptionmanager:
     container_name: exceptionmanager
@@ -242,11 +261,11 @@ services:
       - "${EXCEPTIONMANAGER_PORT}:8666"
     restart: always
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
-     - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
-     - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-     - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
-     - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_HOST}?sslmode=disable
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_RABBITMQ_HOST=${RABBIT_HOST}
+      - SPRING_RABBITMQ_PORT=${RABBIT_PORT}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8666/actuator/info"]
       interval: 60s
