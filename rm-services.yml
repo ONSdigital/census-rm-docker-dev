@@ -245,6 +245,7 @@ services:
       - PORT=8234
       - ENVIRONMENT=DEV
       - APP_SETTINGS=Config
+      - OPS_UI_SECRET=secret
       - CASE_API_URL=http://${CASE_API_HOST}:${CASE_API_PORT}
       - GUNICORN_WORKERS=4
     healthcheck:
