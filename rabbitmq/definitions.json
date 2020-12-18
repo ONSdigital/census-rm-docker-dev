@@ -248,23 +248,6 @@
       }
     },
     {
-      "name": "Gateway.Actions",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {
-        "x-dead-letter-exchange": "",
-        "x-dead-letter-routing-key": "Gateway.ActionsDLQ"
-      }
-    },
-    {
-      "name": "Gateway.ActionsDLQ",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
       "name": "notify.enriched.fulfilment",
       "vhost": "/",
       "durable": true,
@@ -421,33 +404,6 @@
       "name": "events.deadletter.exchange",
       "vhost": "/",
       "type": "direct",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "Gateway.Actions.Exchange",
-      "vhost": "/",
-      "type": "direct",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "Gateway.Events.Exchange",
-      "vhost": "/",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "Gateway.OutcomeEvent.Exchange",
-      "vhost": "/",
-      "type": "topic",
       "durable": true,
       "auto_delete": false,
       "internal": false,
@@ -727,14 +683,6 @@
       "destination": "case.rh.uac.dlq",
       "destination_type": "queue",
       "routing_key": "event.uac.update",
-      "arguments": {}
-    },
-    {
-      "source": "Gateway.Actions.Exchange",
-      "vhost": "/",
-      "destination": "Gateway.Actions",
-      "destination_type": "queue",
-      "routing_key": "Gateway.Action.Request",
       "arguments": {}
     },
     {
